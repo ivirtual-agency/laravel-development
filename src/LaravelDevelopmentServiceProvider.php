@@ -18,7 +18,8 @@ class LaravelDevelopmentServiceProvider extends PackageServiceProvider
         $package
             ->name('ivirtual')
             ->hasConfigFile()
-            ->hasViews();
+            ->hasViews()
+            ->hasTranslations();
     }
 
     /**
