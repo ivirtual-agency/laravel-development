@@ -2,6 +2,8 @@
 
 namespace iVirtual\LaravelDevelopment;
 
+use Composer\InstalledVersions;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Str;
 use iVirtual\LaravelDevelopment\Checks\ConfigurationCheck;
 use iVirtual\LaravelDevelopment\Checks\FlareCheck;
@@ -9,6 +11,7 @@ use iVirtual\LaravelDevelopment\Checks\FlareErrorOccurrenceCountCheck;
 use iVirtual\LaravelDevelopment\Checks\LaravelNovaCheck;
 use iVirtual\LaravelDevelopment\Checks\MailgunCheck;
 use iVirtual\LaravelDevelopment\Checks\OhDearCheck;
+use Laravel\Nova\Fields\Attachments\PruneStaleAttachments;
 use Spatie\Health\Checks\Checks\CacheCheck;
 use Spatie\Health\Checks\Checks\DatabaseCheck;
 use Spatie\Health\Checks\Checks\DatabaseConnectionCountCheck;
@@ -173,5 +176,25 @@ class LaravelDevelopment
             RedisMemoryUsageCheck::new()
                 ->failWhenAboveMb(errorThresholdMb: 25),
         ];
+    }
+
+    /**
+     * Configure the default schedule for the project.
+     *
+     * @link https://github.com/spatie/laravel-schedule-monitor/
+     */
+    public function schedule(Schedule $schedule): void
+    {
+        if (InstalledVersions::isInstalled('laravel/nova')) {
+            $schedule->call(new PruneStaleAttachments)->daily();
+        }
+
+        if (InstalledVersions::isInstalled('laravel/horizon')) {
+            $schedule->command('horizon:snapshot')->everyFiveMinutes();
+        }
+
+        $schedule->command('model:prune', [
+            '--model' => MonitoredScheduledTaskLogItem::class,
+        ])->daily();
     }
 }
