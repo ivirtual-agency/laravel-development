@@ -21,15 +21,29 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         parent::boot();
 
-        $this->withUserMenu();
+        Nova::withoutGlobalSearch();
 
-        $this->withFooter();
+        Nova::withoutNotificationCenter();
+
+        $this->addProfileToUserMenu();
+
+        $this->setNovaFooter();
     }
 
     /**
-     * Add "My Profile" to nova user menu.
+     * Register the Nova gate.
+     *
+     * This gate determines who can access Nova in non-local environments.
      */
-    private function withUserMenu(): void
+    protected function gate(): void
+    {
+        Gate::define('viewNova', fn ($user) => true);
+    }
+
+    /**
+     * Add "My Profile" menu item to nova user menu.
+     */
+    private function addProfileToUserMenu(): void
     {
         Nova::userMenu(function (Request $request, Menu $menu) {
             $user = Nova::user($request);
@@ -51,9 +65,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     }
 
     /**
-     * Resolve the footer used for Nova.
+     * Set the footer text used for Nova.
      */
-    private function withFooter(): void
+    private function setNovaFooter(): void
     {
         Nova::footer(fn () => View::make('ivirtual::nova.footer', [
             'version' => Nova::version(),
