@@ -8,7 +8,7 @@ use Spatie\Health\Checks\Result;
 class FlareCheck extends EnvVars
 {
     /**
-     * Check if Spatie Ignition (Flare) is installed and the correctly configured.
+     * Check if Flare (Spatie Ignition) is installed and the correctly configured.
      */
     public function run(): Result
     {
