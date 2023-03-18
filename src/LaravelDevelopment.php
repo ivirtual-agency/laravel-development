@@ -35,7 +35,7 @@ class LaravelDevelopment
             DebugModeCheck::new(), //Debug mode should be false.
 
             // App should not have laravel configuration default values.
-            ...$this->appDefaultConfigurationChecks(),
+            ...$this->getDefaultConfigurationChecks(),
 
             FlareCheck::new(), // Check that Flare is correctly configured.
 
@@ -62,16 +62,16 @@ class LaravelDevelopment
 
             CacheCheck::new(), // Check that cache is working.
 
-            ...$this->databaseChecks(),
+            ...$this->getDatabaseChecks(),
 
-            ...$this->redisChecks(),
+            ...$this->getRedisChecks(),
         ]);
     }
 
     /**
      * Retrieve the laravel configuration value checks.
      */
-    private function appDefaultConfigurationChecks(): array
+    private function getDefaultConfigurationChecks(): array
     {
         return [
 
@@ -139,7 +139,7 @@ class LaravelDevelopment
     /**
      * Retrieve the database checks.
      */
-    private function databaseChecks(): array
+    private function getDatabaseChecks(): array
     {
         return [
             // Database connection should be working.
@@ -160,7 +160,7 @@ class LaravelDevelopment
     /**
      * Retrieve the Redis checks.
      */
-    private function redisChecks(): array
+    private function getRedisChecks(): array
     {
         return [
             // Redis connection should be working.
