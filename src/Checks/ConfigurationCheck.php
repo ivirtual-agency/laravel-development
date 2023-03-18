@@ -7,14 +7,23 @@ use Spatie\Health\Checks\Result;
 
 class ConfigurationCheck extends Check
 {
+    /**
+     * Wheter should check if the configuration value equals or not the expected value.
+     */
     private bool $checkEquals = true;
 
+    /**
+     * Configuration key name.
+     */
     private string $configKey;
 
+    /**
+     * Configuration value.
+     */
     private $expectedConfigValue;
 
     /**
-     * Check if Laravel Nova is installed and the license is correctly configured.
+     * Check if the given configuration key equals or not the given value.
      */
     public function run(): Result
     {
@@ -48,7 +57,7 @@ class ConfigurationCheck extends Check
     }
 
     /**
-     * Add a new variable to check.
+     * Add a configuration variable to check.
      */
     public function configIs($key, $value): self
     {
@@ -59,7 +68,7 @@ class ConfigurationCheck extends Check
     }
 
     /**
-     * Add a new variable to check.
+     * Add a configuration variable to check.
      */
     public function configIsNot($key, $value): self
     {

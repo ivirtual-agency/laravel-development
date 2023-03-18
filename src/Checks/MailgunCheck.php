@@ -9,7 +9,7 @@ use Spatie\Health\Checks\Result;
 class MailgunCheck extends EnvVars
 {
     /**
-     * Check if Laravel Nova is installed and the license is correctly configured.
+     * Check if mailgun is used and correctly configured.
      */
     public function run(): Result
     {
