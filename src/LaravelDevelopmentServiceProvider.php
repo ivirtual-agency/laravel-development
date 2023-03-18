@@ -33,7 +33,7 @@ class LaravelDevelopmentServiceProvider extends PackageServiceProvider
     {
         LaravelDevelopment::registerRequiredHealthChecks();
 
-        if (!$this->app->runningInConsole()) {
+        if (! $this->app->runningInConsole()) {
             LaravelDevelopment::registerOhDearAppHealthChecks();
         }
     }
