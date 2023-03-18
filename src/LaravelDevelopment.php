@@ -15,6 +15,7 @@ use Spatie\Health\Checks\Checks\DatabaseConnectionCountCheck;
 use Spatie\Health\Checks\Checks\DatabaseSizeCheck;
 use Spatie\Health\Checks\Checks\DebugModeCheck;
 use Spatie\Health\Checks\Checks\EnvironmentCheck;
+use Spatie\Health\Checks\Checks\HorizonCheck;
 use Spatie\Health\Checks\Checks\OptimizedAppCheck;
 use Spatie\Health\Checks\Checks\RedisCheck;
 use Spatie\Health\Checks\Checks\RedisMemoryUsageCheck;
@@ -65,6 +66,8 @@ class LaravelDevelopment
             ...$this->getDatabaseChecks(),
 
             ...$this->getRedisChecks(),
+
+            HorizonCheck::new(),
         ]);
     }
 
