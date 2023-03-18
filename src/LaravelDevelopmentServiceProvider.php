@@ -3,6 +3,7 @@
 namespace iVirtual\LaravelDevelopment;
 
 use iVirtual\LaravelDevelopment\Facades\LaravelDevelopment;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -17,9 +18,12 @@ class LaravelDevelopmentServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('ivirtual')
-            ->hasConfigFile()
+            ->hasConfigFile(['ivirtual', 'health', 'schedule-monitor'])
             ->hasViews()
-            ->hasTranslations();
+            ->hasTranslations()
+            ->hasInstallCommand(function (InstallCommand $command) {
+                $command->publishConfigFile();
+            });
     }
 
     /**
@@ -29,7 +33,7 @@ class LaravelDevelopmentServiceProvider extends PackageServiceProvider
     {
         LaravelDevelopment::registerRequiredHealthChecks();
 
-        if (! $this->app->runningInConsole()) {
+        if (!$this->app->runningInConsole()) {
             LaravelDevelopment::registerOhDearAppHealthChecks();
         }
     }
