@@ -34,7 +34,10 @@ class MailgunCheck extends EnvVars
                 ->shortSummary('Domain not set.');
         }
 
-        $this->requireVars(['MAILGUN_SECRET']);
+        $this->requireVarsForEnvironment(
+            'production',
+            ['MAILGUN_SECRET']
+        );
 
         return parent::run();
     }
