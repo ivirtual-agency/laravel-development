@@ -51,7 +51,7 @@ class OhDearCheck extends Check
                 ->failed('Oh dear api token not added.');
         }
 
-        return parent::run();
+        return Result::make()->ok('Ok');
     }
 
     /**
