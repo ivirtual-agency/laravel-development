@@ -28,7 +28,7 @@ class MailgunCheck extends EnvVars
                 ->shortSummary('Drivers not installed');
         }
 
-        if (is_null(config('services.mailgun.domain'))) {
+        if (! config('services.mailgun.domain')) {
             return Result::make()
                 ->failed('Mailgun domain is not set.')
                 ->shortSummary('Domain not set.');

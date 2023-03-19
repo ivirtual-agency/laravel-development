@@ -40,13 +40,13 @@ class OhDearCheck extends Check
                 ->failed('Horizon queue does not have "OH_DEAR" added.');
         }
 
-        if (! is_int(config('schedule-monitor.oh_dear.site_id'))) {
+        if (! config('schedule-monitor.oh_dear.site_id')) {
             return Result::make()
                 ->failed('Oh dear site id not added.')
                 ->shortSummary(config('schedule-monitor.oh_dear.site_id', '-'));
         }
 
-        if (! is_int(config('schedule-monitor.oh_dear.api_token'))) {
+        if (! config('schedule-monitor.oh_dear.api_token')) {
             return Result::make()
                 ->failed('Oh dear api token not added.');
         }
