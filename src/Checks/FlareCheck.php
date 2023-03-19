@@ -2,10 +2,10 @@
 
 namespace iVirtual\LaravelDevelopment\Checks;
 
-use Encodia\Health\Checks\EnvVars;
+use Spatie\Health\Checks\Check;
 use Spatie\Health\Checks\Result;
 
-class FlareCheck extends EnvVars
+class FlareCheck extends Check
 {
     /**
      * Check if Flare (Spatie Ignition) is installed and the correctly configured.
@@ -19,9 +19,11 @@ class FlareCheck extends EnvVars
         }
 
         // Check for Flare key.
-        $this->requireVars(['FLARE_KEY']);
-
-        return parent::run();
+        return ! config('flare.key')
+            ? Result::make()
+                ->failed('Flare key is not set.')
+                ->shortSummary('not set')
+            : Result::make()->ok('Ok');
     }
 
     /**
