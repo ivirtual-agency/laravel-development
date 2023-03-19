@@ -84,7 +84,7 @@ class ConfigurationCheck extends Check
      */
     public function name(string $name): self
     {
-        $this->name = 'Configuration check: '.$name;
+        $this->name = 'Config: '.$name;
 
         return $this;
     }
