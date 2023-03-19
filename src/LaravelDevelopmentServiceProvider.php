@@ -31,10 +31,8 @@ class LaravelDevelopmentServiceProvider extends PackageServiceProvider
      */
     public function bootingPackage(): void
     {
-        LaravelDevelopment::registerRequiredHealthChecks();
-
-        if (! $this->app->runningInConsole()) {
-            LaravelDevelopment::registerOhDearAppHealthChecks();
-        }
+        LaravelDevelopment::registerHealthChecks(
+            $this->app->runningInConsole()
+        );
     }
 }
