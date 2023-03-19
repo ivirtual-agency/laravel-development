@@ -13,14 +13,6 @@ class OhDearCheck extends Check
      */
     public function run(): Result
     {
-        // Check that oh dear app configuration is correctly set up.
-
-        // OH_DEAR_HEALTH_CHECK_SECRET
-
-        // OH_DEAR_API_TOKEN
-
-        // OH_DEAR_SITE_ID
-
         // Check if the package is installed in the project.
         if (! $this->hasLaravelHorizonInstalled()) {
             return Result::make()
@@ -48,13 +40,13 @@ class OhDearCheck extends Check
                 ->failed('Horizon queue does not have "OH_DEAR" added.');
         }
 
-        if (! is_int(config('scheduler-monitor.oh_dear.site_id'))) {
+        if (! is_int(config('schedule-monitor.oh_dear.site_id'))) {
             return Result::make()
                 ->failed('Oh dear site id not added.')
-                ->shortSummary(config('scheduler-monitor.oh_dear.site_id', '-'));
+                ->shortSummary(config('schedule-monitor.oh_dear.site_id', '-'));
         }
 
-        if (! is_int(config('scheduler-monitor.oh_dear.api_token'))) {
+        if (! is_int(config('schedule-monitor.oh_dear.api_token'))) {
             return Result::make()
                 ->failed('Oh dear api token not added.');
         }
