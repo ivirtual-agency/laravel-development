@@ -102,11 +102,11 @@ class LaravelDevelopment
                 ->name('MySQL host'),
 
             ConfigurationCheck::new()
-                ->configIs('database.connections.mysql.host', config('ivirtual.config.redis_host'))
+                ->configIs('database.redis.default.host', config('ivirtual.config.redis_host'))
                 ->name('Redis default host'),
 
             ConfigurationCheck::new()
-                ->configIs('database.connections.mysql.host', config('ivirtual.config.redis_host'))
+                ->configIs('database.redis.cache.host', config('ivirtual.config.redis_host'))
                 ->name('Redis cache host'),
 
             ConfigurationCheck::new()
