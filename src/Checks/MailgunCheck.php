@@ -3,10 +3,10 @@
 namespace iVirtual\LaravelDevelopment\Checks;
 
 use Composer\InstalledVersions;
-use Encodia\Health\Checks\EnvVars;
+use Spatie\Health\Checks\Check;
 use Spatie\Health\Checks\Result;
 
-class MailgunCheck extends EnvVars
+class MailgunCheck extends Check
 {
     /**
      * Check if mailgun is used and correctly configured.
@@ -34,11 +34,10 @@ class MailgunCheck extends EnvVars
                 ->shortSummary('Domain not set.');
         }
 
-        $this->requireVarsForEnvironment(
-            'production',
-            ['MAILGUN_SECRET']
-        );
-
-        return parent::run();
+        return ! config('services.mailgun.secret')
+            ? Result::make()
+                ->failed('Mailgun secret is not set.')
+                ->shortSummary('Domain not set.')
+            : Result::make()->ok('Ok');
     }
 }
