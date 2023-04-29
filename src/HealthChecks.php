@@ -159,8 +159,8 @@ class HealthChecks
 
             // Check if database connections count are higher than usual.
             DatabaseConnectionCountCheck::new()
-                ->warnWhenMoreConnectionsThan(15)
-                ->failWhenMoreConnectionsThan(50),
+                ->warnWhenMoreConnectionsThan(50)
+                ->failWhenMoreConnectionsThan(100),
 
             // Check if database size is more than 0.5 Gb.
             DatabaseSizeCheck::new()
