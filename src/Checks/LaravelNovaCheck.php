@@ -3,12 +3,11 @@
 namespace iVirtual\LaravelDevelopment\Checks;
 
 use Composer\InstalledVersions;
-use Encodia\Health\Checks\EnvVars;
 use Laravel\Nova\Nova;
+use Spatie\Health\Checks\Check;
 use Spatie\Health\Checks\Result;
-use Spatie\Health\Enums\Status;
 
-class LaravelNovaCheck extends EnvVars
+class LaravelNovaCheck extends Check
 {
     /**
      * Check if Laravel Nova is installed and the license is correctly configured.
@@ -22,20 +21,16 @@ class LaravelNovaCheck extends EnvVars
                 ->shortSummary('Not installed');
         }
 
-        $result = $this->checkForEnvironmentVariable();
-
-        // If parent run fails return it,
-        // If parent check is ok continue.
-        if (! $result->status->equals(Status::ok())) {
-            return $result;
+        if (empty(config('nova.license_key'))) {
+            return Result::make()->failed('License key not provided.');
         }
 
         // Check Nova license via http.
         $response = Nova::checkLicense();
 
         return $response->status() == 204
-            ? $result->ok()
-            : $result->failed($response->json('message'));
+            ? Result::make()->ok()
+            : Result::make()->failed($response->json('message'));
     }
 
     /**
@@ -44,18 +39,5 @@ class LaravelNovaCheck extends EnvVars
     private function hasLaravelNovaInstalled(): bool
     {
         return InstalledVersions::isInstalled('laravel/nova');
-    }
-
-    /**
-     * Check if laravel nova environment variable is set in production.
-     */
-    private function checkForEnvironmentVariable(): Result
-    {
-        $this->requireVarsForEnvironment(
-            'production',
-            ['NOVA_LICENSE_KEY']
-        );
-
-        return parent::run();
     }
 }
