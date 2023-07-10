@@ -13,11 +13,21 @@ class OhDearCheck extends Check
      */
     public function run(): Result
     {
-        // Check if the package is installed in the project.
+        if (! config('schedule-monitor.oh_dear.site_id')) {
+            return Result::make()
+                ->failed('Oh dear site id not added.')
+                ->shortSummary(config('schedule-monitor.oh_dear.site_id', '-'));
+        }
+
+        if (! config('schedule-monitor.oh_dear.api_token')) {
+            return Result::make()
+                ->failed('Oh dear api token not added.');
+        }
+
         if (! $this->hasLaravelHorizonInstalled()) {
             return Result::make()
-                ->failed('Laravel horizon is not installed in this project.')
-                ->shortSummary('Horizon not installed');
+                ->ok('Ok')
+                ->shortSummary('Horizon not installed');;
         }
 
         $schedulerQueue = config('schedule-monitor.oh_dear.queue');
@@ -38,17 +48,6 @@ class OhDearCheck extends Check
         )) {
             return Result::make()
                 ->failed('Horizon queue does not have "OH_DEAR" added.');
-        }
-
-        if (! config('schedule-monitor.oh_dear.site_id')) {
-            return Result::make()
-                ->failed('Oh dear site id not added.')
-                ->shortSummary(config('schedule-monitor.oh_dear.site_id', '-'));
-        }
-
-        if (! config('schedule-monitor.oh_dear.api_token')) {
-            return Result::make()
-                ->failed('Oh dear api token not added.');
         }
 
         return Result::make()->ok('Ok');
