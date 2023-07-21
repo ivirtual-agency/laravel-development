@@ -59,7 +59,7 @@ class ConfigurationCheck extends Check
     /**
      * Add a configuration variable to check.
      */
-    public function configIs($key, $value): self
+    public function configIs($key, $value): static
     {
         $this->configKey = $key;
         $this->expectedConfigValue = $value;
@@ -70,7 +70,7 @@ class ConfigurationCheck extends Check
     /**
      * Add a configuration variable to check.
      */
-    public function configIsNot($key, $value): self
+    public function configIsNot($key, $value): static
     {
         $this->checkEquals = false;
 
@@ -82,7 +82,7 @@ class ConfigurationCheck extends Check
     /**
      * Set the configuration check name.
      */
-    public function name(string $name): self
+    public function name(string $name): static
     {
         $this->name = 'Config: '.$name;
 
