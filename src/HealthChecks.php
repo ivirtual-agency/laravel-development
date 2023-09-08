@@ -7,7 +7,7 @@ use iVirtual\LaravelDevelopment\Checks\ConfigurationCheck;
 use iVirtual\LaravelDevelopment\Checks\FlareCheck;
 use iVirtual\LaravelDevelopment\Checks\HorizonCheck;
 use iVirtual\LaravelDevelopment\Checks\LaravelNovaCheck;
-use iVirtual\LaravelDevelopment\Checks\MailgunCheck;
+use iVirtual\LaravelDevelopment\Checks\AmazonSESCheck;
 use iVirtual\LaravelDevelopment\Checks\OhDearCheck;
 use Spatie\Health\Checks\Checks\CacheCheck;
 use Spatie\Health\Checks\Checks\DatabaseCheck;
@@ -49,7 +49,7 @@ class HealthChecks
 
             OhDearCheck::new(), // Check that Oh Dear is correctly configured.
 
-            MailgunCheck::new(), // Check that Mailgun is correctly configured.
+            AmazonSESCheck::new(), // Check that Mailgun is correctly configured.
 
             LaravelNovaCheck::new()->daily(), // Check Laravel nova configuration.
         ]);
