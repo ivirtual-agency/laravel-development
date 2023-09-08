@@ -5,7 +5,6 @@ namespace iVirtual\LaravelDevelopment;
 use Illuminate\Support\Str;
 use iVirtual\LaravelDevelopment\Checks\ConfigurationCheck;
 use iVirtual\LaravelDevelopment\Checks\FlareCheck;
-use iVirtual\LaravelDevelopment\Checks\FlareErrorOccurrenceCountCheck;
 use iVirtual\LaravelDevelopment\Checks\HorizonCheck;
 use iVirtual\LaravelDevelopment\Checks\LaravelNovaCheck;
 use iVirtual\LaravelDevelopment\Checks\MailgunCheck;
@@ -64,8 +63,6 @@ class HealthChecks
         Health::checks([
 
             OptimizedAppCheck::new(), // App config, routes and events should be cached.
-
-            FlareErrorOccurrenceCountCheck::new(), // Check for Flare occruence counts
 
             SecurityAdvisoriesCheck::new()->daily(), // Check for security vulnerabilities.
 
