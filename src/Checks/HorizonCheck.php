@@ -20,6 +20,12 @@ class HorizonCheck extends SpatieHorizonCheck
                 ->shortSummary('Horizon not installed');
         }
 
+        if (config('horizon.prefix') === 'laravel_horizon:') {
+            return Result::make()
+                ->failed()
+                ->shortSummary('Horizon prefix is wrong.');
+        }
+
         return parent::run();
     }
 
