@@ -174,9 +174,10 @@ class HealthChecks
             // Redis connection should be working.
             RedisCheck::new(),
 
-            // Check if redis memory ussage is more than 25 Mb.
+            // Check if redis memory ussage is more than 500 Mb.
+            // Current server has 1gb of memory.
             RedisMemoryUsageCheck::new()
-                ->failWhenAboveMb(errorThresholdMb: 25),
+                ->failWhenAboveMb(errorThresholdMb: 500),
         ];
     }
 }
