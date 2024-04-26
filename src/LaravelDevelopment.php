@@ -3,8 +3,9 @@
 namespace iVirtual\LaravelDevelopment;
 
 use Composer\InstalledVersions;
-use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\Facades\Schedule;
 use Laravel\Nova\Fields\Attachments\PruneStaleAttachments;
+use Spatie\ScheduleMonitor\Models\MonitoredScheduledTaskLogItem;
 
 class LaravelDevelopment
 {
@@ -15,7 +16,7 @@ class LaravelDevelopment
     {
         ($healthCheck = HealthChecks::new())->registerRequiredHealthChecks();
 
-        if (! $runningInConsole) {
+        if (!$runningInConsole) {
             $healthCheck->registerOhDearAppHealthChecks();
         }
     }
@@ -25,24 +26,24 @@ class LaravelDevelopment
      *
      * @link https://github.com/spatie/laravel-schedule-monitor/
      */
-    public function schedule(Schedule $schedule): void
+    public function schedule(): void
     {
-        $schedule->command('model:prune')->daily()->doNotMonitor();
+        Schedule::command('model:prune')->daily()->doNotMonitor();
 
-        $schedule->command('model:prune', [
+        Schedule::command('model:prune', [
             '--model' => MonitoredScheduledTaskLogItem::class,
         ])
             ->daily()
             ->doNotMonitor();
 
         if (InstalledVersions::isInstalled('laravel/nova')) {
-            $schedule->call(new PruneStaleAttachments)
+            Schedule::call(new \Laravel\Nova\Fields\Attachments\PruneStaleAttachments)
                 ->daily()
                 ->doNotMonitor();
         }
 
         if (InstalledVersions::isInstalled('laravel/horizon')) {
-            $schedule->command('horizon:snapshot')
+            Schedule::command('horizon:snapshot')
                 ->everyFiveMinutes()
                 ->doNotMonitor();
         }
