@@ -4,7 +4,6 @@ namespace iVirtual\LaravelDevelopment;
 
 use Composer\InstalledVersions;
 use Illuminate\Support\Facades\Schedule;
-use Laravel\Nova\Fields\Attachments\PruneStaleAttachments;
 use Spatie\ScheduleMonitor\Models\MonitoredScheduledTaskLogItem;
 
 class LaravelDevelopment
