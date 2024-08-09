@@ -1,22 +1,22 @@
 # Monitor the health of a Laravel application develop by iVirtual.
 
-A Laravel package to check that the local and production environment variables are correctly working for all laravels develop by iVirtual.
+A Laravel package to check that the local and production environment variables are correctly working for all Laravel developments by iVirtual.
 
 ## Installation
 
-You can install the package via composer:
+Install the package via composer:
 
 Add the following to your composer.json file.
 
 ```bash
-composer config repositories.ivirtual '{"type": "vcs", "url": "https://bitbucket.org/ivirtual-la/laravel-development"}' --file composer.json
+composer config repositories.ivirtual '{"type": "vcs", "url": "https://github.com/ivirtual-agency/laravel-development"}' --file composer.json
 ```
 
 ```bash
 composer require ivirtual/laravel-development
 ```
 
-You can install it with:
+Run the installation command:
 
 ```bash
 php artisan ivirtual:install
@@ -24,22 +24,11 @@ php artisan ivirtual:install
 
 ## Usage
 
-Add in the `app/Console/Kernel.php` file the following line.
+Add the default schedule in the `routes/console.php` file.
 ```php
     use iVirtual\LaravelDevelopment\Facades\LaravelDevelopment;
 
-    ...
-    
-    /**
-     * Define the application's command schedule.
-     */
-    protected function schedule(Schedule $schedule): void
-    {
-        ...
-
-        // Add default schedules.
-        LaravelDevelopment::schedule($schedule);
-    }
+    LaravelDevelopment::schedule();
 ```
 
 Replace the laravel nova service provider with the following.
