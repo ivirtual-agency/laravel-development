@@ -18,7 +18,7 @@ class LaravelDevelopmentServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('ivirtual')
-            ->hasConfigFile(['ivirtual', 'health', 'schedule-monitor'])
+            ->hasConfigFile(['ivirtual', 'health'])
             ->hasViews()
             ->hasTranslations()
             ->hasInstallCommand(function (InstallCommand $command) {
