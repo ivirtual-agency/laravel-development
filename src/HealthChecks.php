@@ -4,7 +4,7 @@ namespace iVirtual\LaravelDevelopment;
 
 use Illuminate\Support\Str;
 use iVirtual\LaravelDevelopment\Checks\ConfigurationCheck;
-use iVirtual\LaravelDevelopment\Checks\FlareCheck;
+use iVirtual\LaravelDevelopment\Checks\SentryCheck;
 use iVirtual\LaravelDevelopment\Checks\HorizonCheck;
 use iVirtual\LaravelDevelopment\Checks\LaravelNovaCheck;
 use iVirtual\LaravelDevelopment\Checks\AmazonSESCheck;
@@ -45,7 +45,7 @@ class HealthChecks
             // App should not have laravel configuration default values.
             ...$this->getDefaultConfigurationChecks(),
 
-            FlareCheck::new(), // Check that Flare is correctly configured.
+            SentryCheck::new(), // Check that Sentry is correctly configured.
 
             OhDearCheck::new(), // Check that Oh Dear is correctly configured.
 
@@ -96,7 +96,7 @@ class HealthChecks
                 ->name('Default cache'),
 
             ConfigurationCheck::new()
-                ->configIsNot('cache.prefix', Str::slug(env('APP_NAME', 'laravel'), '_').'_cache_')
+                ->configIsNot('cache.prefix', Str::slug(env('APP_NAME', 'laravel'), '_') . '_cache_')
                 ->name('Cache prefix'),
 
             ConfigurationCheck::new()
@@ -114,7 +114,7 @@ class HealthChecks
             ConfigurationCheck::new()
                 ->configIsNot(
                     'database.redis.options.prefix',
-                    Str::slug(env('APP_NAME', 'laravel'), '_').'_cache_'
+                    Str::slug(env('APP_NAME', 'laravel'), '_') . '_cache_'
                 )
                 ->name('Redis Prefix'),
 
@@ -133,7 +133,7 @@ class HealthChecks
             ConfigurationCheck::new()
                 ->configIsNot(
                     'session.cookie',
-                    Str::slug(env('APP_NAME', 'laravel'), '_').'_session'
+                    Str::slug(env('APP_NAME', 'laravel'), '_') . '_session'
                 )
                 ->name('Session cookie name'),
 
@@ -161,7 +161,7 @@ class HealthChecks
 
             // Check if database size is more than 0.5 Gb.
             DatabaseSizeCheck::new()
-                ->failWhenSizeAboveGb(errorThresholdGb: 0.5),
+                ->failWhenSizeAboveGb(errorThresholdGb: config('ivirtual.database.size')),
         ];
     }
 
