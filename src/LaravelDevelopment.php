@@ -53,7 +53,7 @@ class LaravelDevelopment
             ->doNotMonitor();
 
         if (config('ivirtual.sitemap.enabled')) {
-            Schedule::command(GenerateSitemap::class)->daily();
+            Schedule::command('ivirtual:generate-sitemap')->daily();
         }
     }
 }

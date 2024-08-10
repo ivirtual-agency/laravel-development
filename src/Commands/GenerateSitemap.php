@@ -12,7 +12,7 @@ class GenerateSitemap extends Command
      *
      * @var string
      */
-    public $signature = 'generate-sitemap';
+    public $signature = 'ivirtual:generate-sitemap';
 
     /**
      * The console command description.
