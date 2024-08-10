@@ -15,10 +15,13 @@
     ],
     "require": {
         "php": "^8.2",
+        "aws/aws-sdk-php": "^3.319",
         "doctrine/dbal": "^4.0",
         "encodia/laravel-health-env-vars": "^1.7",
         "illuminate/contracts": "^11.0",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "ohdearapp/ohdear-php-sdk": "^3.10",
+        "sentry/sentry-laravel": "^4.7",
         "spatie/laravel-health": "^1.22",
         "spatie/laravel-ignition": "^2.0",
         "spatie/laravel-package-tools": "^1.14.0",
