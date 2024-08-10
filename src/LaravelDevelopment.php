@@ -4,7 +4,6 @@ namespace iVirtual\LaravelDevelopment;
 
 use Composer\InstalledVersions;
 use Illuminate\Support\Facades\Schedule;
-use iVirtual\LaravelDevelopment\Commands\GenerateSitemap;
 use Spatie\Health\Commands\ScheduleCheckHeartbeatCommand;
 use Spatie\ScheduleMonitor\Models\MonitoredScheduledTaskLogItem;
 use Spatie\Health\Facades\Health;
@@ -51,9 +50,5 @@ class LaravelDevelopment
         Schedule::command(ScheduleCheckHeartbeatCommand::class)
             ->everyMinute()
             ->doNotMonitor();
-
-        if (config('ivirtual.sitemap.enabled')) {
-            Schedule::command('ivirtual:generate-sitemap')->daily();
-        }
     }
 }

@@ -19,7 +19,6 @@ return [
 
     // Generate a sitemap for the website.
     'sitemap' => [
-        'enabled' => env('IVIRTUAL_SITEMAP_ENABLED', false),
         'path' => env('IVIRTUAL_SITEMAP_PATH', 'sitemap.xml')
     ],
 ];

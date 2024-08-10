@@ -26,8 +26,10 @@ php artisan ivirtual:install
 
 Add the default schedule in the `routes/console.php` file.
 ```php
+    use Illuminate\Support\Facades\Schedule;
     use iVirtual\LaravelDevelopment\Facades\LaravelDevelopment;
 
+    Schedule::command('ivirtual:generate-sitemap')->daily();
     LaravelDevelopment::schedule();
 ```
 
