@@ -16,11 +16,11 @@ class LoggingCheck extends Check
             return Result::make()->failed('Logging channel is not stack.');
         }
 
-        if (in_array('daily', config('logging.channels.stack.channels'))) {
+        if (! in_array('daily', config('logging.channels.stack.channels'))) {
             return Result::make()->failed('Logging daily channel not added.');
         }
 
-        if (! in_array('single', config('logging.channels.stack.channels'))) {
+        if (in_array('single', config('logging.channels.stack.channels'))) {
             return Result::make()->failed('Logging single channel added.');
         }
 
