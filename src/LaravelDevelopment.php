@@ -4,6 +4,7 @@ namespace iVirtual\LaravelDevelopment;
 
 use Composer\InstalledVersions;
 use Illuminate\Support\Facades\Schedule;
+use Spatie\Health\Commands\ScheduleCheckHeartbeatCommand;
 use Spatie\ScheduleMonitor\Models\MonitoredScheduledTaskLogItem;
 
 class LaravelDevelopment
@@ -27,7 +28,9 @@ class LaravelDevelopment
      */
     public function schedule(): void
     {
-        Schedule::command('model:prune')->daily()->doNotMonitor();
+        Schedule::command('model:prune')
+            ->daily()
+            ->doNotMonitor();
 
         Schedule::command('model:prune', [
             '--model' => MonitoredScheduledTaskLogItem::class,
@@ -46,5 +49,9 @@ class LaravelDevelopment
                 ->everyFiveMinutes()
                 ->doNotMonitor();
         }
+
+        Schedule::command(ScheduleCheckHeartbeatCommand::class)
+            ->everyMinute()
+            ->doNotMonitor();
     }
 }
