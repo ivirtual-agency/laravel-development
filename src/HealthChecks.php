@@ -4,10 +4,11 @@ namespace iVirtual\LaravelDevelopment;
 
 use Illuminate\Support\Str;
 use iVirtual\LaravelDevelopment\Checks\ConfigurationCheck;
-use iVirtual\LaravelDevelopment\Checks\SentryCheck;
 use iVirtual\LaravelDevelopment\Checks\HorizonCheck;
 use iVirtual\LaravelDevelopment\Checks\LaravelNovaCheck;
-use iVirtual\LaravelDevelopment\Checks\AmazonSESCheck;
+use iVirtual\LaravelDevelopment\Checks\FilesystemCheck;
+use iVirtual\LaravelDevelopment\Checks\LoggingCheck;
+use iVirtual\LaravelDevelopment\Checks\MailCheck;
 use iVirtual\LaravelDevelopment\Checks\OhDearCheck;
 use Spatie\Health\Checks\Checks\CacheCheck;
 use Spatie\Health\Checks\Checks\DatabaseCheck;
@@ -18,6 +19,7 @@ use Spatie\Health\Checks\Checks\EnvironmentCheck;
 use Spatie\Health\Checks\Checks\OptimizedAppCheck;
 use Spatie\Health\Checks\Checks\RedisCheck;
 use Spatie\Health\Checks\Checks\RedisMemoryUsageCheck;
+use Spatie\Health\Checks\Checks\ScheduleCheck;
 use Spatie\Health\Facades\Health;
 use Spatie\SecurityAdvisoriesHealthCheck\SecurityAdvisoriesCheck;
 
@@ -45,11 +47,13 @@ class HealthChecks
             // App should not have laravel configuration default values.
             ...$this->getDefaultConfigurationChecks(),
 
-            SentryCheck::new(), // Check that Sentry is correctly configured.
-
             OhDearCheck::new(), // Check that Oh Dear is correctly configured.
+            
+            FilesystemCheck::new(), // Check that Sentry is correctly configured.
 
-            AmazonSESCheck::new(), // Check that Mailgun is correctly configured.
+            MailCheck::new(), // Check that Mailgun is correctly configured.
+            
+            LoggingCheck::new(), // Check that Mailgun is correctly configured.
 
             LaravelNovaCheck::new()->daily(), // Check Laravel nova configuration.
         ]);
@@ -73,6 +77,8 @@ class HealthChecks
             ...$this->getRedisChecks(),
 
             HorizonCheck::new(),
+
+            ScheduleCheck::new(),
         ]);
     }
 
@@ -96,12 +102,16 @@ class HealthChecks
                 ->name('Default cache'),
 
             ConfigurationCheck::new()
-                ->configIsNot('cache.prefix', Str::slug(env('APP_NAME', 'laravel'), '_') . '_cache_')
+                ->configIsNot('cache.prefix', 'laravel_cache_')
                 ->name('Cache prefix'),
 
             ConfigurationCheck::new()
                 ->configIs('database.connections.mysql.host', config('ivirtual.config.mysql_host'))
                 ->name('MySQL host'),
+
+            ConfigurationCheck::new()
+                ->configIsNot('database.redis.options.prefix', 'laravel_database_')
+                ->name('Redis Prefix'),
 
             ConfigurationCheck::new()
                 ->configIs('database.redis.default.host', config('ivirtual.config.redis_host'))
@@ -110,13 +120,6 @@ class HealthChecks
             ConfigurationCheck::new()
                 ->configIs('database.redis.cache.host', config('ivirtual.config.redis_host'))
                 ->name('Redis cache host'),
-
-            ConfigurationCheck::new()
-                ->configIsNot(
-                    'database.redis.options.prefix',
-                    Str::slug(env('APP_NAME', 'laravel'), '_') . '_cache_'
-                )
-                ->name('Redis Prefix'),
 
             ConfigurationCheck::new()
                 ->configIs('queue.default', 'redis')
