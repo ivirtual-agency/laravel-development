@@ -2,6 +2,7 @@
 
 namespace iVirtual\LaravelDevelopment;
 
+use iVirtual\LaravelDevelopment\Commands\GenerateSitemap;
 use iVirtual\LaravelDevelopment\Facades\LaravelDevelopment;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
@@ -23,7 +24,8 @@ class LaravelDevelopmentServiceProvider extends PackageServiceProvider
             ->hasTranslations()
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command->publishConfigFile();
-            });
+            })
+            ->hasCommand(GenerateSitemap::class);
     }
 
     /**

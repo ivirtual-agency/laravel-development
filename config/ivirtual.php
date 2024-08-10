@@ -15,5 +15,11 @@ return [
     // Database configurations
     'database' => [
         'size' => env('IVIRTUAL_DATABSE_SIZE', 0.5)
-    ]
+    ],
+
+    // Generate a sitemap for the website.
+    'sitemap' => [
+        'enabled' => env('IVIRTUAL_SITEMAP_ENABLED', false),
+        'path' => env('IVIRTUAL_SITEMAP_PATH', 'sitemap.xml')
+    ],
 ];

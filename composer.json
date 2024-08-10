@@ -26,6 +26,7 @@
         "spatie/laravel-ignition": "^2.0",
         "spatie/laravel-package-tools": "^1.14.0",
         "spatie/laravel-schedule-monitor": "^3.2",
+        "spatie/laravel-sitemap": "^7.2",
         "spatie/security-advisories-health-check": "^1.0"
     },
     "require-dev": {
