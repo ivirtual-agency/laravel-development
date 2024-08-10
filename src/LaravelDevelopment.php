@@ -6,19 +6,16 @@ use Composer\InstalledVersions;
 use Illuminate\Support\Facades\Schedule;
 use Spatie\Health\Commands\ScheduleCheckHeartbeatCommand;
 use Spatie\ScheduleMonitor\Models\MonitoredScheduledTaskLogItem;
+use Spatie\Health\Facades\Health;
 
 class LaravelDevelopment
 {
     /**
      * Register the laravel development health checks.
      */
-    public function registerHealthChecks(bool $runningInConsole = false): void
+    public function registerHealthChecks(): void
     {
-        ($healthCheck = HealthChecks::new())->registerRequiredHealthChecks();
-
-        if (!$runningInConsole) {
-            $healthCheck->registerOhDearAppHealthChecks();
-        }
+        Health::checks(HealthChecks::new());
     }
 
     /**

@@ -20,72 +20,82 @@ use Spatie\Health\Checks\Checks\OptimizedAppCheck;
 use Spatie\Health\Checks\Checks\RedisCheck;
 use Spatie\Health\Checks\Checks\RedisMemoryUsageCheck;
 use Spatie\Health\Checks\Checks\ScheduleCheck;
-use Spatie\Health\Facades\Health;
 use Spatie\SecurityAdvisoriesHealthCheck\SecurityAdvisoriesCheck;
 
 class HealthChecks
 {
     /**
-     * Create a new instance of health checks.
+     * Retrieve an array with all the health checks.
      */
-    public static function new(): self
+    public static function new(): array
     {
-        return new static;
+        return [
+            ...static::configurationChecks(),
+            ...static::servicesChecks(),
+        ];
     }
 
     /**
-     * Register the health checks that are required for deployment.
+     * Retrieve all configuration checks.
      */
-    public function registerRequiredHealthChecks(): void
+    public static function configurationChecks(): array
     {
-        Health::checks([
+        return [
 
-            EnvironmentCheck::new(), // App environment should be 'production'.
+            // App config, routes and events should be cached.
+            OptimizedAppCheck::new(),
 
-            DebugModeCheck::new(), //Debug mode should be false.
+            // App environment should be 'production'.
+            EnvironmentCheck::new(),
+
+            //Debug mode should be false.
+            DebugModeCheck::new(),
 
             // App should not have laravel configuration default values.
-            ...$this->getDefaultConfigurationChecks(),
+            ...static::getDefaultConfigurationChecks(),
 
-            OhDearCheck::new(), // Check that Oh Dear is correctly configured.
-            
-            FilesystemCheck::new(), // Check that Sentry is correctly configured.
+            // Check that Oh Dear is correctly configured.
+            OhDearCheck::new(),
 
-            MailCheck::new(), // Check that Mailgun is correctly configured.
-            
-            LoggingCheck::new(), // Check that Mailgun is correctly configured.
+            // Check that Sentry is correctly configured.
+            FilesystemCheck::new(),
 
-            LaravelNovaCheck::new()->daily(), // Check Laravel nova configuration.
-        ]);
+            // Check that Mailgun is correctly configured.
+            MailCheck::new(),
+
+            // Check that Mailgun is correctly configured.
+            LoggingCheck::new(),
+
+            // Check Laravel nova configuration.
+            LaravelNovaCheck::new()->daily(),
+        ];
     }
 
     /**
-     * Register the healt checks that will run on Oh Dear requests.
+     * Retrieve all external services checks.
      */
-    public function registerOhDearAppHealthChecks(): void
+    public static function servicesChecks(): array
     {
-        Health::checks([
-
-            OptimizedAppCheck::new(), // App config, routes and events should be cached.
+        return [
 
             SecurityAdvisoriesCheck::new()->daily(), // Check for security vulnerabilities.
 
             CacheCheck::new(), // Check that cache is working.
 
-            ...$this->getDatabaseChecks(),
+            ...static::getDatabaseChecks(),
 
-            ...$this->getRedisChecks(),
+            ...static::getRedisChecks(),
 
             HorizonCheck::new(),
 
             ScheduleCheck::new(),
-        ]);
+        ];
     }
 
     /**
      * Retrieve the laravel configuration value checks.
      */
-    private function getDefaultConfigurationChecks(): array
+    private static function getDefaultConfigurationChecks(): array
     {
         return [
 
@@ -150,7 +160,7 @@ class HealthChecks
     /**
      * Retrieve the database checks.
      */
-    private function getDatabaseChecks(): array
+    private static function getDatabaseChecks(): array
     {
         return [
             // Database connection should be working.
@@ -171,7 +181,7 @@ class HealthChecks
     /**
      * Retrieve the Redis checks.
      */
-    private function getRedisChecks(): array
+    private static function getRedisChecks(): array
     {
         return [
             // Redis connection should be working.
