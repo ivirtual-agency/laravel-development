@@ -88,7 +88,7 @@ class HealthChecks
 
             HorizonCheck::new(),
 
-            ScheduleCheck::new(),
+            ScheduleCheck::new()->heartbeatMaxAgeInMinutes(2),
         ];
     }
 
