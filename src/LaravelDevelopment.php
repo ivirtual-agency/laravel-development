@@ -50,5 +50,9 @@ class LaravelDevelopment
         Schedule::command(ScheduleCheckHeartbeatCommand::class)
             ->everyMinute()
             ->doNotMonitor();
+
+        Schedule::command('auth:clear-resets')
+            ->everyFifteenMinutes()
+            ->doNotMonitor();
     }
 }
